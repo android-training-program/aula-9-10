@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "948580684746",
+    "firebase_url": "https://atp2020-eb0af.firebaseio.com",
+    "project_id": "atp2020-eb0af",
+    "storage_bucket": "atp2020-eb0af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:948580684746:android:66bbd6c3f5d36b0423b533",
+        "android_client_info": {
+          "package_name": "pt.atp.bobi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "948580684746-ckng00va4iu8d4e4v5h1qncnbpfo0g1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD93LMTR7qlBg7kfJ2pT0mdqBS4xda2qdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "948580684746-ckng00va4iu8d4e4v5h1qncnbpfo0g1a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

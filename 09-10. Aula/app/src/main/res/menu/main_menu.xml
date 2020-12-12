@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_home"
+        android:title="@string/main_menu_home"/>
+
+    <item
+        android:id="@+id/breeds"
+        android:enabled="true"
+        android:icon="@drawable/ic_paw"
+        android:title="@string/main_menu_breeds"/>
+
+    <item
+        android:id="@+id/favourites"
+        android:enabled="true"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/main_menu_favourites"/>
+
+    <item
+        android:id="@+id/chat"
+        android:enabled="true"
+        android:icon="@drawable/ic_chat"
+        android:title="@string/main_menu_chat"/>
+
+    <item
+        android:id="@+id/about"
+        android:enabled="true"
+        android:icon="@drawable/ic_info"
+        android:title="@string/main_menu_about"/>
+
+</menu>

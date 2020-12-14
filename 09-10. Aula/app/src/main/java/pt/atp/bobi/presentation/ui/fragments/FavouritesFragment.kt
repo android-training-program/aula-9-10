@@ -1,13 +1,27 @@
 package pt.atp.bobi.presentation.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import pt.atp.bobi.BobiApplication
+import pt.atp.bobi.EXTRA_DOG_BREED
+import pt.atp.bobi.EXTRA_DOG_NAME
 import pt.atp.bobi.R
+import pt.atp.bobi.data.model.Breed
+import pt.atp.bobi.presentation.ui.BreedsAdapter
+import pt.atp.bobi.presentation.ui.DetailsActivity
 
-class FavouritesFragment : Fragment(){
+class FavouritesFragment : Fragment() {
+
+    private val viewModel by viewModels<FavouritesViewModel> {
+        FavouritesViewModelFactory((requireActivity().application as BobiApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,10 +31,31 @@ class FavouritesFragment : Fragment(){
         return inflater.inflate(R.layout.fragment_favourites, container, false)
     }
 
-    @JvmOverloads
-    fun createDog(name: String = "unknown",
-    breed: String = "unknown") {
-        // Código
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setup()
+        viewModel.loadDogs()
     }
 
+    private fun setup() {
+        requireView().findViewById<RecyclerView>(R.id.rv_breeds).apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = BreedsAdapter(::openDetailsScreen, viewModel::favBreed)
+        }
+
+        viewModel.dogsLiveData.observe(viewLifecycleOwner) {
+            val adapter =
+                requireView().findViewById<RecyclerView>(R.id.rv_breeds).adapter as BreedsAdapter
+            adapter.submitList(it)
+        }
+    }
+
+    private fun openDetailsScreen(breed: Breed) {
+        val intent = Intent(requireContext(), DetailsActivity::class.java)
+        intent.putExtra(EXTRA_DOG_NAME, breed.name)
+        intent.putExtra(EXTRA_DOG_BREED, breed.id)
+        startActivity(intent)
+    }
 }

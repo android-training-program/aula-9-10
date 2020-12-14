@@ -1,14 +1,13 @@
 package pt.atp.bobi.presentation.ui.fragments
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import pt.atp.bobi.data.DogsAPIClient
 import pt.atp.bobi.data.cb.DataRetrieved
 import pt.atp.bobi.data.model.Breed
-import pt.atp.bobi.data.persistence.DogModel
+import pt.atp.bobi.data.persistence.Dog
 import pt.atp.bobi.data.persistence.DogRepository
 
 private const val TAG = "BreedsViewModel"
@@ -20,25 +19,24 @@ class BreedsViewModel(
     private val _dogsViewModel = MutableLiveData<List<Breed>>()
     val dogsLiveData = _dogsViewModel
 
-    init {
-        repository.insert(DogModel("breafor", "group", 1, 50, "Fifi", "desconhecida", "medio"))
-        repository.insert(DogModel("breafor", "group", 2, 50, "Kiko", "desconhecida", "medio"))
-        repository.insert(DogModel("breafor", "group", 3, 51, "Luna", "desconhecida", "medio"))
-    }
+    private var dogsLoaded = emptyList<Breed>()
 
     fun loadDogs() {
         DogsAPIClient.getListOfBreeds(this)
     }
 
-    fun loadDogsDatabase(): LiveData<List<DogModel>> {
-        return repository.allDogs
+    fun favBreed(breed: Breed) {
+        val dog = breedToDog(breed)
+        repository.insert(dog)
+        updateDogs()
     }
 
     //region DataRetrieved
 
     override fun onDataFetchedSuccess(breeds: List<Breed>) {
         Log.d(TAG, "onDataFetched Success | ${breeds.size} new breeds")
-        _dogsViewModel.postValue(breeds)
+        dogsLoaded = breeds
+        updateDogs()
     }
 
     override fun onDataFetchedFailed() {
@@ -47,6 +45,35 @@ class BreedsViewModel(
     }
 
     //endregion DataRetrieved
+
+    private fun breedToDog(breed: Breed): Dog {
+        return Dog(
+            bredFor = breed.bredFor,
+            bredGroup = breed.bredGroup,
+            id = breed.id,
+            lifeSpan = breed.lifeSpan,
+            name = breed.name,
+            origin = breed.origin,
+            temperament = breed.temperament
+        )
+    }
+
+    private fun updateDogs() {
+
+        repository.getDogs { dogs ->
+
+            val dogsIDs = dogs.map { it.id }
+
+            dogsLoaded.map {
+                if (dogsIDs.contains(it.id))
+                    it.copy(fav = true)
+                else
+                    it
+            }.let {
+                _dogsViewModel.postValue(it)
+            }
+        }
+    }
 }
 
 class BreedsViewModelFactory(

@@ -5,15 +5,15 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Dog")
-data class DogModel(
+data class Dog(
     @ColumnInfo(name = "bred_for")
-    val bredFor: String,
+    val bredFor: String?,
     @ColumnInfo(name = "bred_group")
-    val bredGroup: String,
+    val bredGroup: String?,
     @PrimaryKey(autoGenerate = false)
-    val id: Int,
+    val id: String,
     @ColumnInfo(name = "life_span")
-    val lifeSpan: Int,
+    val lifeSpan: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "origin")

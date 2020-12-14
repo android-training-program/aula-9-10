@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-@Database(entities = [DogModel::class], version = 1, exportSchema = false)
+@Database(entities = [Dog::class], version = 1, exportSchema = false)
 abstract class KennelDatabase : RoomDatabase() {
 
     abstract fun dogDao(): DogDao

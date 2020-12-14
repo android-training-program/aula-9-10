@@ -9,11 +9,17 @@ import androidx.room.Query
 @Dao
 interface DogDao {
 
-    @Query("SELECT * FROM Dog ORDER BY name ASC")
-    fun getAlphabetizedDogs(): LiveData<List<DogModel>>
+    @Query("SELECT * FROM Dog")
+    fun getDogs(): List<Dog>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(dog: DogModel)
+    fun insert(dog: Dog)
+
+    @Query("SELECT * FROM dog WHERE id=:id ")
+    fun findDogById(id: String): LiveData<Dog>
+
+    @Query("DELETE FROM Dog WHERE id = :id")
+    fun deleteById(id: String)
 
     @Query("DELETE FROM dog")
     fun deleteAll()
